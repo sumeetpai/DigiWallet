@@ -12,6 +12,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,8 +22,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 // FIRST SEE THE APPLICATION.PROPERTIES IN TEST RESOURCES FOLDER
 // ALSO LOOK AT THE DBSCIPT.SQL AND DATAINSERT.SQL FILES IN MAIN FOLDER
 //RUN THE SHELL SCRIPT TO CREATE THE TABLES IN TEST DATABASE BEFORE RUNNING THE TESTS
-//TODO: 3.5.1: REMOVE @Disabled TO ENABLE THE TESTS
-@Disabled
+//DONE: 3.5.1: REMOVE @Disabled TO ENABLE THE TESTS
+//@Disabled
 public class CardRepositoryTest {
 
     @Autowired
@@ -56,7 +57,7 @@ public class CardRepositoryTest {
         this.wallet = walletRepository.save(w);
     }
 
-    //TODO: 3.5.3:
+    //DONE: 3.5.3:
     // Write a test to verify:
     // - A Card can be saved successfully
     // - Card ID is generated
@@ -64,32 +65,45 @@ public class CardRepositoryTest {
     @Test
     void shouldSaveCardSuccessfully() {
         // GIVEN
-
+        Card card = new Card();
+        card.setWallet(wallet);
+        card.setCardNumber("1234567890123456");
+        card.setCardType("DEBIT");
+        card.setStatus("ACTIVE");
 
         // WHEN
-
+        Card savedCard = cardRepository.save(card);
 
         // THEN
-
+        assertThat(savedCard).isNotNull();
+        assertThat(savedCard.getId()).isNotNull();
+        assertThat(savedCard.getCardNumber()).isEqualTo("1234567890123456");
     }
 
-    //TODO: 3.5.4:
+    //DONE: 3.5.4:
     // Write a test to verify:
     // - Card can be fetched by cardNumber
     @Test
    // @Disabled
     void shouldFindCardByCardNumber() {
         // GIVEN
-
+        Card card = new Card();
+        card.setWallet(wallet);
+        card.setCardNumber("9876543210987654");
+        card.setCardType("CREDIT");
+        card.setStatus("ACTIVE");
+        cardRepository.save(card);
 
         // WHEN
-
+        Optional<Card> foundCard = cardRepository.findByCardNumber("9876543210987654");
 
         // THEN
-
+        assertThat(foundCard).isPresent();
+        assertThat(foundCard.get().getCardNumber()).isEqualTo("9876543210987654");
+        assertThat(foundCard.get().getCardType()).isEqualTo("CREDIT");
     }
 
-    //TODO: 3.5.5
+    //DONE: 3.5.5
     // Write a test to verify:
     // - existsByCardNumber returns true for existing card
     // - existsByCardNumber returns false for non-existing card
@@ -97,9 +111,15 @@ public class CardRepositoryTest {
     @Test
     void shouldCheckIfCardExistsByCardNumber() {
         // GIVEN
-
+        Card card = new Card();
+        card.setWallet(wallet);
+        card.setCardNumber("1111222233334444");
+        card.setCardType("DEBIT");
+        card.setStatus("ACTIVE");
+        cardRepository.save(card);
 
         // WHEN + THEN
-
+        assertThat(cardRepository.existsByCardNumber("1111222233334444")).isTrue();
+        assertThat(cardRepository.existsByCardNumber("9999999999999999")).isFalse();
     }
 }
