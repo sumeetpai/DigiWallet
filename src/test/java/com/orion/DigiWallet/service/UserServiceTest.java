@@ -121,13 +121,13 @@ class UserServiceTest {
         @Disabled
         @Test
         void shouldReturnAdminGreeting_whenRoleIsAdmin() {
-
+            userService.generateGreetingMsg("admin");
         }
 
         @Disabled
         @Test
         void shouldReturnUserGreeting_whenRoleIsNotAdmin() {
-
+            userService.generateGreetingMsg("user");
         }
 
         @Disabled

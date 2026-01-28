@@ -78,7 +78,11 @@ public class UserService  {
         // Example: "User access"
         // return the complete greeting message as a String
         // write a unit test to verify this method works as expected
-        return null;
+
+        if(role.equalsIgnoreCase("admin"))
+            return "Admin access enabled";
+        else
+            return "User access";
     }
 
     public User updateUserStatus(Long id) {
