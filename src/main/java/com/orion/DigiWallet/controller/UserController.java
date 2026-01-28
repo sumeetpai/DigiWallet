@@ -38,7 +38,7 @@ public class UserController {
         return userService.getUserById(id);
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
+    //@ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public User createUser(@RequestBody User user) {
         logger.info("POST /api/users called");

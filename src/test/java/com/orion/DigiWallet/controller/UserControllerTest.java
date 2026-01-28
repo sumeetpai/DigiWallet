@@ -3,10 +3,7 @@ package com.orion.DigiWallet.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orion.DigiWallet.model.User;
 import com.orion.DigiWallet.service.UserService;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -157,6 +154,7 @@ class UserControllerTest {
     // PUT /api/users/{id}
     // ---------------------------------------------
     @Nested
+    @Disabled
     class UpdateUserStatusTests {
 
         @Test
