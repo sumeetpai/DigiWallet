@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService  {
@@ -45,7 +46,10 @@ public class UserService  {
         // Example: logger.info("Fetching user with id {}", id);
         // Fetch user from repository
         // test the result on swagger or postman
-        return null;
+
+        logger.info("Fetching user with id {}",id);
+        Optional<User> user = userRepository.findById(id);
+
 
         //TODO: 1.3
         // Before returning the User object, call generateGreetingMsg(role)
@@ -55,6 +59,7 @@ public class UserService  {
         // Hint: Use user.setUserGreetingMessage(greeting)
         // test the result on swagger or postman
 
+        return user.orElse(null);
     }
 
     @Transactional
