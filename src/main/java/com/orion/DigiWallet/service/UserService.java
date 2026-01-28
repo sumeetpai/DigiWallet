@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +20,6 @@ public class UserService  {
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
-
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -48,7 +49,7 @@ public class UserService  {
         // test the result on swagger or postman
 
         logger.info("Fetching user with id {}",id);
-        Optional<User> user = userRepository.findById(id);
+        User user = userRepository.findById(id).orElse(null);
 
 
         //TODO: 1.3
@@ -59,7 +60,13 @@ public class UserService  {
         // Hint: Use user.setUserGreetingMessage(greeting)
         // test the result on swagger or postman
 
-        return user.orElse(null);
+        if (user == null) {
+            return null; 
+        }
+        String role = user.getRole();
+        String greeting = generateGreetingMsg(role);
+        user.setUserGreetingMessage(greeting);
+        return user;
     }
 
     @Transactional
