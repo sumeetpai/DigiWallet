@@ -30,14 +30,21 @@ public class UserService  {
 
         List<User> users = userRepository.findAll();
         logger.info("Total users fetched: {}", users.size());
-        return users;
         //TODO: 1.4
         // For each user in the list, call generateGreetingMsg(user)
         // before returning the list
         // Hint: Use a for-each loop to iterate through the users list
         // test the result on swagger or postman
 
+        for(User user: users)
+        {
+            String role = user.getRole();
+            String greeting = generateGreetingMsg(role);
+            user.setUserGreetingMessage(greeting);
+            userRepository.save(user);
+        }
 
+        return users;
     }
 
     public User getUserById(Long id) {
@@ -61,7 +68,7 @@ public class UserService  {
         // test the result on swagger or postman
 
         if (user == null) {
-            return null; 
+            return null;
         }
         String role = user.getRole();
         String greeting = generateGreetingMsg(role);
@@ -93,8 +100,10 @@ public class UserService  {
 
         if(role.equalsIgnoreCase("admin"))
             return "Admin access enabled";
-        else
+        else if(role.equalsIgnoreCase("user"))
             return "User access";
+        else
+            return "guest access";
     }
 
     public User updateUserStatus(Long id) {

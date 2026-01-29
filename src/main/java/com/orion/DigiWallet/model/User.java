@@ -25,7 +25,7 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    @Transient
+    //@Transient
     private String userGreetingMessage; // NOT stored in DB
 
     @PrePersist
