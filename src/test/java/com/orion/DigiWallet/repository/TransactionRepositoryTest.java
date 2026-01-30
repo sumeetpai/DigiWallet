@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -133,21 +134,35 @@ public class TransactionRepositoryTest {
 
 
         // WHEN
-
+        Optional<Transaction> transactions = transactionRepository.findById(user.getId());
+        // Assert that transactions are found
+        assertThat(transactions).isPresent();
+        // Assert that the number of transactions matches
+        assertThat(transactions.get().getId()).isEqualTo(user.getId());
 
         // THEN
+
 
     }
 
     // TODO: 3.6.7
     // Write a test to verify:
     // - Empty list is returned when no transactions exist for user
-    @Disabled
     @Test
     void shouldReturnEmptyListWhenNoTransactionsForUser() {
         // GIVEN
+        User newUser = new User();
+        newUser.setUsername("NoTxnUser");
+        newUser.setFullName("No Transaction User");
+        newUser.setEmail("newuser@example.com");
+        newUser.setRole("USER");
+        newUser.setStatus("ACTIVE");
+        newUser = userRepository.save(newUser);
 
         // WHEN
+        List<Transaction> transactions = transactionRepository.findByWallet_User_Id(newUser.getId());
+        // Assert that the transactions list is empty
+        assertThat(transactions).isEmpty();
 
         // THEN
 
