@@ -24,7 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 // ALSO LOOK AT THE DBSCIPT.SQL AND DATAINSERT.SQL FILES IN MAIN FOLDER
 //RUN THE SHELL SCRIPT TO CREATE THE TABLES IN TEST DATABASE BEFORE RUNNING THE TESTS
 //TODO: 3.6.1: REMOVE @Disabled TO ENABLE THE TESTS
-@Disabled
+
 public class TransactionRepositoryTest {
 
     @Autowired
@@ -51,6 +51,14 @@ public class TransactionRepositoryTest {
         // create user with dummy data eg username, email etc
         // username: "Test User", email: "txn.user@test.com
         // Save the user to the repository and assign to this.user
+        user = new User();
+        user.setUsername("Test User");
+        user.setFullName("Transaction Test User");
+        user.setEmail("testuser@example.com");
+        user.setRole("USER");
+        user.setStatus("ACTIVE");
+        user = userRepository.save(user);
+        this.user = user;
 
 
         // Create and persist Wallet linked to User
@@ -59,10 +67,22 @@ public class TransactionRepositoryTest {
         // Link the wallet to the user created above
         // Balance is BigDecimal.valueOf(1000)
         // Save the wallet to the repository and assign to this.wallet
+        wallet = new Wallet();
+        wallet.setUser(this.user);
+        wallet.setBalance(BigDecimal.valueOf(1000));
+        wallet.setCurrency("INR");
+        wallet.setStatus("ACTIVE");
+        wallet = walletRepository.save(wallet);
+        this.wallet = wallet;
 
         // Create and persist Category
         //TODO: 3.6.4: Create category with type "EXPENSE"
         // Save the category to the repository and assign to this.category
+        category = new Category();
+        category.setName("Test Category");
+        category.setType("EXPENSE");
+        category = categoryRepository.save(category);
+        this.category = category;
 
     }
 
@@ -91,11 +111,25 @@ public class TransactionRepositoryTest {
     // TODO: 3.6.6:
     // Write a test to verify:
     // - Transactions can be fetched by User ID
-    @Disabled
     @Test
     void shouldFindTransactionsByUserId() {
         // GIVEN
         // Create and save multiple Transactions for the Wallet
+        Transaction txn1 = new Transaction();
+        txn1.setWallet(wallet);
+        txn1.setCategory(category);
+        txn1.setAmount(100.0);
+        txn1.setTransactionType("DEBIT");
+        txn1.setReferenceId("TXN-TEST-002");
+        transactionRepository.save(txn1);
+        Transaction txn2 = new Transaction();
+        txn2.setWallet(wallet);
+        txn2.setCategory(category);
+        txn2.setAmount(200.0);
+        txn2.setTransactionType("DEBIT");
+        txn2.setReferenceId("TXN-TEST-003");
+        transactionRepository.save(txn2);
+
 
 
         // WHEN

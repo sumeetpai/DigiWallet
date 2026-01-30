@@ -30,7 +30,6 @@ class CardServiceTest {
 
     // ---------------------------------------------------------
     // REMOVE @Disabled TO ENABLE THE TESTS
-    @Disabled
     @Nested
     @DisplayName("createCard()")
     class CreateCardTests {
@@ -79,7 +78,6 @@ class CardServiceTest {
 
     // ---------------------------------------------------------
     // REMOVE @Disabled TO ENABLE THE TESTS
-    @Disabled
     @Nested
     @DisplayName("getCardById()")
     class GetCardByIdTests {
@@ -120,7 +118,6 @@ class CardServiceTest {
 
     // ---------------------------------------------------------
     // REMOVE @Disabled TO ENABLE THE TESTS
-    @Disabled
     @Nested
     @DisplayName("updateCard()")
     class UpdateCardTests {
@@ -170,7 +167,6 @@ class CardServiceTest {
 
     // ---------------------------------------------------------
     // REMOVE @Disabled TO ENABLE THE TESTS
-    @Disabled
     @Nested
     @DisplayName("deleteCard()")
     class DeleteCardTests {
@@ -179,7 +175,6 @@ class CardServiceTest {
         @DisplayName("Given existing card id when deleteCard then delete successfully")
         void givenExistingCardId_whenDeleteCard_thenDeleteSuccessfully() {
 
-            // GIVEN
             Mockito.when(cardRepository.existsById(1L))
                     .thenReturn(true);
 
