@@ -97,7 +97,8 @@ public class UserService  {
         // Example: "User access"
         // return the complete greeting message as a String
         // write a unit test to verify this method works as expected
-
+        if(role == null)
+            return "guest access";
         if(role.equalsIgnoreCase("admin"))
             return "Admin access enabled";
         else if(role.equalsIgnoreCase("user"))
